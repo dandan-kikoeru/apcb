@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +14,21 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::post("/api/user/register", [UserController::class, "register"])->name("register");
+Route::post("/api/user/logout", [UserController::class, "logout"]);
+Route::post("/api/user/login", [UserController::class,"login"]);
+
+Route::middleware(["auth"])->group(function () {
+  Route::get('/', function () {
+    return view('home');
+  });
+});
+
+Route::middleware(['guest'])->group(function () {
+  Route::get('/register', function () {
+    return view('auth/register');
+  });
+  Route::get('/login', function () {
+    return view('auth/login');
+  })->name('login');
 });

@@ -1,7 +1,8 @@
 <?php
 
-use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,10 +14,22 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+Route::middleware(['guest'])->group(function () {
+  Route::post("/api/user/register", [UserController::class, "register"]);
+  Route::post("/api/user/login", [UserController::class, "login"]);
 
-Route::post("/api/user/register", [UserController::class, "register"])->name("register");
-Route::post("/api/user/logout", [UserController::class, "logout"]);
-Route::post("/api/user/login", [UserController::class,"login"]);
+});
+
+Route::middleware(["auth"])->group(function () {
+  Route::post("/api/user/logout", [UserController::class, "logout"]);
+  Route::post("/api/post/create", [PostController::class, "create"]);
+});
+
+Route::middleware(['guest'])->group(function () {
+  Route::get('/login', function () {
+    return view('login');
+  })->name('login');
+});
 
 Route::middleware(["auth"])->group(function () {
   Route::get('/', function () {
@@ -24,11 +37,3 @@ Route::middleware(["auth"])->group(function () {
   });
 });
 
-Route::middleware(['guest'])->group(function () {
-  Route::get('/register', function () {
-    return view('auth/register');
-  });
-  Route::get('/login', function () {
-    return view('auth/login');
-  })->name('login');
-});

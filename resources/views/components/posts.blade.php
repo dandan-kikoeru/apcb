@@ -30,9 +30,9 @@
 </dialog>
 </div>
 
-@foreach (posts as post)
+{{-- @foreach (posts as post) --}}
   {{-- ntar --}}
-@endforeach
+{{-- @endforeach --}}
 
 <script>
   function show() {

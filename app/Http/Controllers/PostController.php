@@ -10,12 +10,21 @@ class PostController extends Controller
 {
   public function create(Request $request)
   {
-
-    $post = $request->validate([
-      "caption" => ["required"],
-      "image" => ['sometimes', 'mimes:jpeg,png,jpg,gif,webp', 'max:2048'],
+    $request->validate([
+      'caption' => 'required',
     ]);
-    $imageName = Str::random(16) . '.' . $request->file('image')->extension();
-    return $post;
+
+    $imageName = null;
+
+    if ($request->image) {
+      $imageName = Str::random(16) . '.' . $request->file('image')->extension();
+    }
+
+    $post = Post::create([
+      'caption' => $request->caption,
+      'image' => $imageName,
+      'user_id' => auth()->user()->id,
+    ]);
+    return redirect('/');
   }
 }

@@ -16,7 +16,7 @@
         </span></button>
     </form>
     <h1 class="text-3xl font-semibold mb-4">Create Post</h1>
-    <form action="/api/post/create" method="POST">
+    <form action="/api/post/create" method="POST" enctype="multipart/form-data">
       @csrf
       <textarea class="outline-none bg-neutral w-full min-h-8"
         placeholder="Apa yang Anda pikirkan, {{ Auth()->user()->name }}?" name="caption"></textarea>
@@ -29,10 +29,18 @@
   </form>
 </dialog>
 </div>
-
-{{-- @foreach (posts as post) --}}
-  {{-- ntar --}}
-{{-- @endforeach --}}
+@foreach ($posts as $post)
+  <div class="card card-body bg-neutral my-2">
+    <div class="flex gap-2">
+      <img src="{{ $post->user->avatar }}" class="w-10 aspect-square rounded-full">
+      {{ $post->user->name }}
+    </div>
+    {{ $post->caption }}
+    @if ($post->image)
+      {{ $post->image }}
+    @endif
+  </div>
+@endforeach
 
 <script>
   function show() {

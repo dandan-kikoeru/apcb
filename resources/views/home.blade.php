@@ -13,7 +13,7 @@
 
 <body>
   <x-navbar />
-  <x-posts />
+  <x-posts :posts=$posts />
 </body>
 
 </html>

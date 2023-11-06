@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Post;
+use App\Http\Resources\PostResource;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
@@ -33,7 +35,11 @@ Route::middleware(['guest'])->group(function () {
 
 Route::middleware(["auth"])->group(function () {
   Route::get('/', function () {
-    return view('home');
+    $posts = Post::latest()->get();
+
+    return view('home', [
+      'posts' => PostResource::collection($posts),
+    ]);
   });
 });
 

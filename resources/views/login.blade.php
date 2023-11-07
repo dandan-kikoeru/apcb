@@ -17,7 +17,7 @@
       <form action="/api/user/login" method="POST" class="pb-4 border-b border-accent">
         @csrf
         <h1 class="text-3xl font-semibold mb-4">Login</h1>
-        <input type="text" name="name" class="input w-full my-4" placeholder="Nama">
+        <input type="text" name="email" class="input w-full my-4" placeholder="Email">
         <input type="password" name="password" class="input w-full my-4" placeholder="Password">
         <button class="btn btn-block btn-primary normal-case mt-8">Log in</button>
       </form>

@@ -4,7 +4,11 @@ import daisyui from "daisyui";
 export default {
   content: ["./resources/**/*.blade.php"],
   theme: {
-    extend: {},
+    extend: {
+      boxShadow: {
+        center: "0px 0px 16px 4px rgba(0,0,0,0.2)",
+      },
+    },
   },
   plugins: [require("daisyui")],
   daisyui: {

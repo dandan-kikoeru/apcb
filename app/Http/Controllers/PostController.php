@@ -12,19 +12,58 @@ class PostController extends Controller
   {
     $request->validate([
       'caption' => 'required',
+      'image' => ['mimes:jpeg,png,jpg,webp,gif', 'max:2048']
     ]);
 
-    $imageName = null;
+    $imageUrl = null;
 
     if ($request->image) {
       $imageName = Str::random(16) . '.' . $request->file('image')->extension();
+      $imageUrl = "/images/$imageName";
+      $request->file('image')->move(public_path('images'), $imageName);
     }
 
-    $post = Post::create([
+    Post::create([
       'caption' => $request->caption,
-      'image' => $imageName,
+      'image' => $imageUrl,
       'user_id' => auth()->user()->id,
     ]);
     return redirect('/');
   }
+
+  public function read(Request $request)
+  {
+    $query = $request->input('search');
+    return redirect("/search/$query");
+  }
+
+  public function update($id, Request $request)
+  {
+    $post = Post::find($id);
+
+    $request->validate([
+      'caption' => 'required',
+      'image' => ['mimes:jpeg,png,jpg,webp,gif', 'max:2048']
+    ]);
+
+    $imageUrl = null;
+
+    if ($request->image) {
+      $imageName = Str::random(16) . '.' . $request->file('image')->extension();
+      $imageUrl = "/images/$imageName";
+      $request->file('image')->move(public_path('images'), $imageName);
+    }
+
+    $post->caption = $request->caption;
+    $post->image = $imageUrl;
+    $post->save();
+    return redirect('/');
+  }
+
+  public function delete(Post $id)
+  {
+    $id->delete();
+    return redirect('/');
+  }
+
 }

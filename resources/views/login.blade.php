@@ -12,7 +12,7 @@
 </head>
 
 <body>
-  <div class="card w-96 bg-neutral shadow-xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+  <div class="card w-96 bg-neutral shadow-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
     <div class="card-body">
       <form action="/api/user/login" method="POST" class="pb-4 border-b border-accent">
         @csrf
@@ -26,7 +26,7 @@
   </div>
 
   <dialog id="register" class="modal">
-    <div class="modal-box bg-neutral w-[28rem]">
+    <div class="modal-box bg-neutral w-[28rem] shadow-center">
       <form method="dialog">
         <button class="btn btn-circle btn-ghost float-right bg-neutral"><span class="material-symbols-outlined">
             close

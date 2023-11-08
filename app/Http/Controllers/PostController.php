@@ -31,12 +31,6 @@ class PostController extends Controller
     return redirect('/');
   }
 
-  public function read(Request $request)
-  {
-    $query = $request->input('search');
-    return redirect("/search/$query");
-  }
-
   public function update($id, Request $request)
   {
     $post = Post::find($id);

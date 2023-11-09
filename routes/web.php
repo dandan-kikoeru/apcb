@@ -2,6 +2,7 @@
 
 use App\Models\Post;
 use App\Models\User;
+use Illuminate\Http\Request;
 use App\Http\Resources\PostResource;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
@@ -38,8 +39,14 @@ Route::middleware(['guest'])->group(function () {
 
 
 Route::middleware(["auth"])->group(function () {
-  Route::get('/', function () {
-    $posts = Post::latest()->get();
+  Route::get('/', function (Request $request) {
+    $posts = Post::latest()->paginate(25);
+    $lastPage = $posts->lastPage();
+
+    if ($request->input('page') > $lastPage) {
+      return redirect("/?page=$lastPage");
+    }
+
     return view('home', [
       'posts' => PostResource::collection($posts),
     ]);
@@ -64,7 +71,7 @@ Route::middleware(["auth"])->group(function () {
 
   Route::get("/{id}", function ($id) {
     if ($user = User::find($id)) {
-      $posts = Post::latest()->where("user_id", $user->id)->get();
+      $posts = Post::latest()->where("user_id", $user->id)->paginate(25);
       return view("profile", [
         "posts" => PostResource::collection($posts),
         "profile" => $user,

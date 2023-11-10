@@ -45,6 +45,13 @@ Route::middleware(["auth"])->group(function () {
     ]);
   });
 
+  Route::get("/api/posts/{id}", function ($id) {
+    if ($post = Post::find($id)) {
+      return new PostResource($post);
+    }
+    return abort(404);
+  });
+
   Route::get('/settings', function () {
     return view('settings');
   });

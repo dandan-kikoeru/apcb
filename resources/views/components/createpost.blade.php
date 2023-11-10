@@ -16,12 +16,22 @@
           close
         </span></button>
     </form>
-    <h1 class="text-3xl font-semibold mb-4">Create Post</h1>
+    <h1 class="text-3xl font-semibold mb-4">Buat Postingan</h1>
     <form action="/api/post/create" method="POST" enctype="multipart/form-data">
       @csrf
       <textarea class="outline-none bg-neutral w-full min-h-8"
         placeholder="Apa yang Anda pikirkan, {{ Auth()->user()->name }}?" name="caption"></textarea>
-      <input type="file" class="file-input w-full file:normal-case mt-2" name="image" />
+      <div class="relative flex mx-auto justify-center flex-col w-fit my-2">
+        <img class="rounded-lg cursor-pointer" id="imagePreview" onclick="openImage()">
+        <div class="btn btn-ghost btn-circle absolute btn-sm right-0 top-0 hidden" id="imageButton"
+          onclick="resetImage()">
+          <span class="material-symbols-outlined">close</span>
+        </div>
+      </div>
+      <div class="btn btn-ghost btn-circle" onclick="openImage()" id="add"><span
+          class="material-symbols-outlined">add_a_photo</span></div>
+      <input type="file" class="hidden" name="image" accept=".jpeg, .jpg, .png, .webp, .gif"
+        onchange="handleImagePreview()" />
       <button class="btn btn-primary btn-block normal-case mt-2">Post</button>
     </form>
   </div>
@@ -30,9 +40,41 @@
   </form>
 </dialog>
 <script>
+  const imageInput = document.querySelector('input[type="file"]');
+  const textareaInput = document.querySelector('textarea[name="caption"]');
+  const imagePreview = document.getElementById('imagePreview');
+  const imageButton = document.getElementById('imageButton');
+
   function showCreate() {
     createPost.showModal();
-    document.querySelector('input[type="file"]').value = '';
-    document.querySelector('textarea[name="caption"]').value = '';
+    imageInput.value = '';
+    textareaInput.value = '';
+  }
+
+  function openImage() {
+    imageInput.click();
+  }
+
+  function handleImagePreview() {
+    let selectedFile = imageInput.files[0];
+    if (selectedFile) {
+      let reader = new FileReader();
+
+      reader.onload = function(e) {
+        imagePreview.src = e.target.result;
+        imageButton.classList.remove('hidden')
+        document.getElementById('add').classList.add('hidden');
+      };
+
+      reader.readAsDataURL(selectedFile);
+    }
+  }
+
+  function resetImage() {
+    imagePreview.src = '';
+    imageButton.classList.add('hidden')
+    document.getElementById('add').classList.remove('hidden');
+    imageInput.value = '';
+
   }
 </script>

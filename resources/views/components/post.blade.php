@@ -25,7 +25,7 @@
           </li>
           <form action="/api/post/delete/{{ $post->id }}" method="POST">
             @csrf
-            <li><button><span class="material-symbols-outlined">delete</span>Delete</button>
+            <li><button><span class="material-symbols-outlined">delete</span>Hapus</button>
             </li>
           </form>
         </ul>
@@ -37,7 +37,7 @@
               <span class="material-symbols-outlined">close</span>
             </button>
           </form>
-          <h1 class="text-3xl font-semibold mb-4">Edit Post</h1>
+          <h1 class="text-3xl font-semibold mb-4">Edit Postingan</h1>
           <form action="/api/post/update/{{ $post->id }}" method="POST" enctype="multipart/form-data">
             @csrf
             <textarea class="outline-none bg-neutral w-full min-h-8"
@@ -58,7 +58,7 @@
         <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow-center mt-2 mr-4 bg-neutral rounded-box w-52">
           <form action="/api/post/delete/{{ $post->id }}" method="POST">
             @csrf
-            <li><button><span class="material-symbols-outlined">delete</span>Delete</button>
+            <li><button><span class="material-symbols-outlined">delete</span>Hapus</button>
             </li>
           </form>
         </ul>
@@ -66,18 +66,26 @@
     @endif
   </div>
   {!! nl2br($post->caption) !!}
-
   @if ($post->image)
-    <img src="{{ $post->image }}">
+    <img src="{{ $post->image }}" class="rounded-lg">
   @endif
 </div>
 <script>
-  function showEdit(id) {
+  async function showEdit(id) {
     const dialog = document.getElementById('editPost-' + id);
+
     if (dialog) {
       dialog.showModal();
+
+      try {
+        const response = await fetch(`/api/posts/${id}`);
+        const postData = await response.json();
+
+        dialog.querySelector('textarea[name="caption"]').value = postData.data.caption;
+        dialog.querySelector('input[type="file"]').value = '';
+      } catch (error) {
+        console.error('Error fetching post data:', error);
+      }
     }
-    dialog.querySelector('textarea[name="caption"]').value = '';
-    dialog.querySelector('input[type="file"]').value = '';
   }
 </script>

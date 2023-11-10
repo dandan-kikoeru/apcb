@@ -40,9 +40,23 @@
           <h1 class="text-3xl font-semibold mb-4">Edit Postingan</h1>
           <form action="/api/post/update/{{ $post->id }}" method="POST" enctype="multipart/form-data">
             @csrf
-            <textarea class="outline-none bg-neutral w-full min-h-8"
-              placeholder="Apa yang Anda pikirkan, {{ Auth()->user()->name }}?" name="caption"></textarea>
-            <input type="file" class="file-input w-full file:normal-case mt-2" name="image" />
+            <textarea class="outline-none bg-neutral w-full h-32" placeholder="Apa yang Anda pikirkan, {{ Auth()->user()->name }}?"
+              name="caption"></textarea>
+            <div class="relative flex mx-auto justify-center flex-col w-fit my-2">
+              <img class="rounded-lg cursor-pointer" id="imagePreview" src="{{ $post->image }}"
+                onclick="openImage({{ $post->id }})">
+              <div class="btn btn-ghost btn-circle absolute btn-sm right-0 top-0 {{ $post->image ? '' : 'hidden' }}"
+                id="imageButton" onclick="resetImage({{ $post->id }})">
+                <span class="material-symbols-outlined">close</span>
+              </div>
+            </div>
+            <input type="file" class="hidden file-input w-full file:normal-case mt-2" name="image" id="imageInput"
+              onchange="handleImagePreview({{ $post->id }})" />
+            <input type="hidden" name="updateImage" value="1">
+            <div class="btn btn-ghost btn-circle  {{ $post->image ? 'hidden' : '' }}"
+              onclick="openImage({{ $post->id }})" id="add"><span
+                class="material-symbols-outlined">add_a_photo</span>
+            </div>
             <button class="btn btn-primary btn-block normal-case mt-2">Edit</button>
           </form>
         </div>
@@ -82,10 +96,40 @@
         const postData = await response.json();
 
         dialog.querySelector('textarea[name="caption"]').value = postData.data.caption;
-        dialog.querySelector('input[type="file"]').value = '';
       } catch (error) {
         console.error('Error fetching post data:', error);
       }
+    }
+  }
+
+  function resetImage(id) {
+    const dialog = document.getElementById('editPost-' + id);
+    dialog.querySelector('input[name="updateImage"]').value = '0';
+    dialog.querySelector('input[type="file"]').value = '';
+    dialog.querySelector('#imagePreview').classList.add('hidden');
+    dialog.querySelector('#imageButton').classList.add('hidden');
+    dialog.querySelector('#add').classList.remove('hidden');
+  }
+
+  function openImage(id) {
+    const dialog = document.getElementById('editPost-' + id);
+    dialog.querySelector('input[type="file"]').click();
+  }
+
+  function handleImagePreview(id) {
+    const dialog = document.getElementById('editPost-' + id);
+    let selectedFile = dialog.querySelector('input[type="file"]').files[0];
+    if (selectedFile) {
+      let reader = new FileReader();
+
+      reader.onload = function(e) {
+        dialog.querySelector('#imagePreview').src = e.target.result;
+        dialog.querySelector('#imagePreview').classList.remove('hidden');
+        dialog.querySelector('#imageButton').classList.remove('hidden');
+        dialog.querySelector('#add').classList.add('hidden');
+      };
+
+      reader.readAsDataURL(selectedFile);
     }
   }
 </script>

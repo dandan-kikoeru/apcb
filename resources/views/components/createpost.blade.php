@@ -22,16 +22,16 @@
       <textarea class="outline-none bg-neutral w-full min-h-8"
         placeholder="Apa yang Anda pikirkan, {{ Auth()->user()->name }}?" name="caption"></textarea>
       <div class="relative flex mx-auto justify-center flex-col w-fit my-2">
-        <img class="rounded-lg cursor-pointer" id="imagePreview" onclick="openImage()">
+        <img class="rounded-lg cursor-pointer" id="imagePreview" onclick="openCreateImage()">
         <div class="btn btn-ghost btn-circle absolute btn-sm right-0 top-0 hidden" id="imageButton"
-          onclick="resetImage()">
+          onclick="resetCreateImage()">
           <span class="material-symbols-outlined">close</span>
         </div>
       </div>
-      <div class="btn btn-ghost btn-circle" onclick="openImage()" id="add"><span
+      <div class="btn btn-ghost btn-circle" onclick="openCreateImage()" id="add"><span
           class="material-symbols-outlined">add_a_photo</span></div>
       <input type="file" class="hidden" name="image" accept=".jpeg, .jpg, .png, .webp, .gif"
-        onchange="handleImagePreview()" />
+        onchange="handleCreateImagePreview()" />
       <button class="btn btn-primary btn-block normal-case mt-2">Post</button>
     </form>
   </div>
@@ -51,11 +51,11 @@
     textareaInput.value = '';
   }
 
-  function openImage() {
+  function openCreateImage() {
     imageInput.click();
   }
 
-  function handleImagePreview() {
+  function handleCreateImagePreview() {
     let selectedFile = imageInput.files[0];
     if (selectedFile) {
       let reader = new FileReader();
@@ -70,7 +70,7 @@
     }
   }
 
-  function resetImage() {
+  function resetCreateImage() {
     imagePreview.src = '';
     imageButton.classList.add('hidden')
     document.getElementById('add').classList.remove('hidden');

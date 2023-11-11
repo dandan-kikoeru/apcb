@@ -1,7 +1,8 @@
 <div class="navbar bg-neutral border-b border-accent sticky top-0 z-10">
   <div class="flex-1">
     {{ $slot }}
-    <a class="btn btn-primary btn-circle normal-case text-xl mx-2 no-animation" href="/" id="logo">CP</a>
+    <a class="btn btn-ghost bg-[#2044ba] hover:bg-primary btn-circle normal-case text-xl mx-2 no-animation" href="/"
+      id="logo"><img src="/logo.webp"></a>
     <a class="btn btn-ghost btn-circle mx-2 hidden no-animation" id="back">
       <span class="material-symbols-outlined">arrow_back</span>
     </a>

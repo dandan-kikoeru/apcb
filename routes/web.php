@@ -2,12 +2,12 @@
 
 use App\Models\Post;
 use App\Models\User;
+use Illuminate\Http\Request;
 use App\Http\Resources\PostResource;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\SearchController;
-use Illuminate\Http\Request;
 
 Route::middleware(['guest'])->group(function () {
   Route::post("/api/user/register", [UserController::class, "register"]);

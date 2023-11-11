@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\SearchController;
+use Illuminate\Http\Request;
 
 Route::middleware(['guest'])->group(function () {
   Route::post("/api/user/register", [UserController::class, "register"]);
@@ -25,6 +26,16 @@ Route::middleware(["auth"])->group(function () {
   Route::post("/api/user/update/name", [UserController::class, "updateName"]);
   Route::post("/api/user/update/avatar", [UserController::class, "updateAvatar"]);
   Route::post("/api/user/update/banner", [UserController::class, "updateBanner"]);
+  Route::get("/api/posts/{id}", function ($id) {
+    if ($post = Post::find($id)) {
+      return new PostResource($post);
+    }
+    return abort(404);
+  });
+  // Route::get("/api/posts", function () {
+  //   $posts = Post::latest()->paginate(10);
+  //   return PostResource::collection($posts);
+  // });
 });
 
 
@@ -38,18 +49,17 @@ Route::middleware(['guest'])->group(function () {
 
 
 Route::middleware(["auth"])->group(function () {
-  Route::get('/', function () {
-    $posts = Post::latest()->get();
+  Route::get('/', function (Request $request) {
+    $posts = Post::latest()->paginate(25);
+    $lastPage = $posts->lastPage();
+
+    if ($request->input('page') > $lastPage) {
+      return redirect("/?page=$lastPage");
+    }
+
     return view('home', [
       'posts' => PostResource::collection($posts),
     ]);
-  });
-
-  Route::get("/api/posts/{id}", function ($id) {
-    if ($post = Post::find($id)) {
-      return new PostResource($post);
-    }
-    return abort(404);
   });
 
   Route::get('/settings', function () {
@@ -69,9 +79,15 @@ Route::middleware(["auth"])->group(function () {
     return abort(404);
   });
 
-  Route::get("/{id}", function ($id) {
+  Route::get("/{id}", function ($id, Request $request) {
     if ($user = User::find($id)) {
-      $posts = Post::latest()->where("user_id", $user->id)->get();
+      $posts = Post::latest()->where("user_id", $user->id)->paginate(25);
+      $lastPage = $posts->lastPage();
+
+      if ($request->input('page') > $lastPage) {
+        return redirect("/$id/?page=$lastPage");
+      }
+
       return view("profile", [
         "posts" => PostResource::collection($posts),
         "profile" => $user,

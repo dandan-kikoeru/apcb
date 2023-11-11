@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class SearchController extends Controller
 {
-  function search(Request $request)
+  public function search(Request $request)
   {
     $query = $request->input("q");
     $user = Auth()->user();
@@ -29,7 +29,7 @@ class SearchController extends Controller
     return redirect("/");
 
   }
-  function all(Request $request)
+  public function all(Request $request)
   {
     $query = $request->input('q');
     $posts = Post::where('caption', 'like', '%' . $query . '%')->get();
@@ -42,7 +42,7 @@ class SearchController extends Controller
     ]);
   }
 
-  function posts(Request $request)
+  public function posts(Request $request)
   {
     $query = $request->input('q');
     $posts = Post::where('caption', 'like', '%' . $query . '%')->get();
@@ -53,7 +53,7 @@ class SearchController extends Controller
     ]);
   }
 
-  function users(Request $request)
+  public function users(Request $request)
   {
     $query = $request->input('q');
     $users = User::where('name', 'like', '%' . $query . '%')->get();

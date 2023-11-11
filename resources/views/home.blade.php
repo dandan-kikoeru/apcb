@@ -15,6 +15,7 @@
   <x-navbar />
   <x-createpost />
   <x-posts :posts=$posts />
+  <x-paginator :paginate=$posts />
 </body>
 
 </html>

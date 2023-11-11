@@ -34,6 +34,7 @@
     <x-createpost />
   @endif
   <x-posts :posts=$posts />
+  <x-paginator :paginate=$posts />
 </body>
 
 </html>

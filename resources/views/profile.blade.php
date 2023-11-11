@@ -13,11 +13,14 @@
 
 <body>
   <x-navbar />
-  <div class="bg-neutral sm:px-16">
+  <div class="bg-neutral">
     @if ($profile->banner)
-      <img class="w-96 sm:w-[64rem] z-10 mx-auto aspect-[3/1]" src="{{ $profile->banner }}" />
+      <div class="relative aspect-[3/1] max-w-6xl mx-auto overflow-hidden rounded-b-xl">
+        <img class="object-cover w-full h-full" src="{{ $profile->banner }}" />
+      </div>
     @else
-      <div class="w-96 sm:w-[64rem] z-10 mx-auto bg-black aspect-[3/1]"></div>
+      <div class="relative aspect-[3/1] max-w-6xl mx-auto overflow-hidden rounded-xl bg-black">
+      </div>
     @endif
   </div>
   <div class="flex flex-col items-center bg-neutral h-40 border-b border-accent relative">

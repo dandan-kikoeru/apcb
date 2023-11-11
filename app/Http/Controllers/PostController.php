@@ -34,13 +34,20 @@ class PostController extends Controller
   public function update($id, Request $request)
   {
     $post = Post::find($id);
+    $imageUrl = null;
+
+    if ($request->input('updateImage', '0')) {
+      $imageUrl = null;
+    }
 
     $request->validate([
       'caption' => 'required',
       'image' => ['mimes:jpeg,png,jpg,webp,gif', 'max:2048']
     ]);
 
-    $imageUrl = null;
+    if ($request->input('updateImage', '1')) {
+      $imageUrl = $post->image;
+    }
 
     if ($request->image) {
       $imageName = Str::random(16) . '.' . $request->file('image')->extension();

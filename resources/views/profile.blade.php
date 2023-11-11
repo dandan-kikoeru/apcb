@@ -34,6 +34,19 @@
     <x-createpost />
   @endif
   <x-posts :posts=$posts />
+  @if ($posts->lastPage() > 1)
+    <div class="join absolute left-1/2 -translate-x-1/2 pb-4">
+      @if ($posts->previousPageUrl())
+        <a class="join-item btn material-symbols-outlined btn-neutral"
+          href="{{ $posts->previousPageUrl() }}">keyboard_double_arrow_left</a>
+      @endif
+      <a class="join-item btn font-bold w-16 btn-neutral" href="">{{ $posts->currentPage() }}</a>
+      @if ($posts->nextPageUrl())
+        <a class="join-item btn material-symbols-outlined btn-neutral"
+          href="{{ $posts->nextPageUrl() }}">keyboard_double_arrow_right</a>
+      @endif
+    </div>
+  @endif
 </body>
 
 </html>

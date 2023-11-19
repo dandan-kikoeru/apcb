@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -15,7 +16,7 @@
 <body>
   <div class="card w-96 bg-neutral shadow-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
     <div class="card-body">
-      <form action="/api/user/login" method="POST" class="pb-4 border-b border-accent">
+      <form action="/cp/user/login" method="POST" class="pb-4 border-b border-accent">
         @csrf
         <h1 class="text-3xl font-semibold mb-4">Login</h1>
         <input type="text" name="email" class="input w-full my-4" placeholder="Email">
@@ -33,7 +34,7 @@
             close
           </span></button>
       </form>
-      <form action="/api/user/register" method="POST">
+      <form action="/cp/user/register" method="POST">
         @csrf
         <h1 class="text-3xl font-semibold mb-4">Sign Up</h1>
         <input type="text" name="name" class="input w-full my-4" placeholder="Nama">

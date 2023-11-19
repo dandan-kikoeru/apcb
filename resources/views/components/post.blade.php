@@ -23,7 +23,7 @@
               <span class="material-symbols-outlined">edit</span>Edit
             </div>
           </li>
-          <form action="/api/post/delete/{{ $post->id }}" method="POST">
+          <form action="/cp/post/delete/{{ $post->id }}" method="POST">
             @csrf
             <li><button><span class="material-symbols-outlined">delete</span>Hapus</button>
             </li>
@@ -38,7 +38,7 @@
             </button>
           </form>
           <h1 class="text-3xl font-semibold mb-4">Edit Postingan</h1>
-          <form action="/api/post/update/{{ $post->id }}" method="POST" enctype="multipart/form-data">
+          <form action="/cp/post/update/{{ $post->id }}" method="POST" enctype="multipart/form-data">
             @csrf
             <textarea class="outline-none bg-neutral w-full h-32" placeholder="Apa yang Anda pikirkan, {{ Auth()->user()->name }}?"
               name="caption"></textarea>
@@ -70,7 +70,7 @@
           <span class="material-symbols-outlined">more_horiz</span>
         </label>
         <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow-center mt-2 mr-4 bg-neutral rounded-box w-52">
-          <form action="/api/post/delete/{{ $post->id }}" method="POST">
+          <form action="/cp/post/delete/{{ $post->id }}" method="POST">
             @csrf
             <li><button><span class="material-symbols-outlined">delete</span>Hapus</button>
             </li>
@@ -92,7 +92,7 @@
       dialog.showModal();
 
       try {
-        const response = await fetch(`/api/posts/${id}`);
+        const response = await fetch(`/cp/posts/${id}`);
         const postData = await response.json();
 
         dialog.querySelector('textarea[name="caption"]').value = postData.data.caption;

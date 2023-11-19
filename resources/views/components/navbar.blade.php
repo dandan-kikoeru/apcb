@@ -6,7 +6,7 @@
     <a class="btn btn-ghost btn-circle mx-2 hidden no-animation" id="back">
       <span class="material-symbols-outlined">arrow_back</span>
     </a>
-    <form action="/api/search" method="post">
+    <form action="/cp/search" method="post">
       @csrf
       <div class="relative flex items-center overflow-hidden rounded-full">
         <input type="text"
@@ -41,7 +41,7 @@
             <span class="material-symbols-outlined">settings</span>Settings
           </a>
         </li>
-        <form action="/api/user/logout" method="post">
+        <form action="/cp/user/logout" method="post">
           <li>
             @csrf
             <button><span class="material-symbols-outlined">

@@ -10,29 +10,29 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\SearchController;
 
 Route::middleware(['guest'])->group(function () {
-  Route::post("/api/user/register", [UserController::class, "register"]);
-  Route::post("/api/user/login", [UserController::class, "login"]);
+  Route::post("/cp/user/register", [UserController::class, "register"]);
+  Route::post("/cp/user/login", [UserController::class, "login"]);
 });
 
 Route::middleware(["auth"])->group(function () {
-  Route::post("/api/user/logout", [UserController::class, "logout"]);
+  Route::post("/cp/user/logout", [UserController::class, "logout"]);
 
-  Route::post("/api/post/create", [PostController::class, "create"]);
-  Route::post("/api/post/update/{id}", [PostController::class, "update"]);
-  Route::post("/api/post/delete/{id}", [PostController::class, "delete"]);
+  Route::post("/cp/post/create", [PostController::class, "create"]);
+  Route::post("/cp/post/update/{id}", [PostController::class, "update"]);
+  Route::post("/cp/post/delete/{id}", [PostController::class, "delete"]);
 
-  Route::post("/api/search", [SearchController::class, "search"]);
+  Route::post("/cp/search", [SearchController::class, "search"]);
 
-  Route::post("/api/user/update/name", [UserController::class, "updateName"]);
-  Route::post("/api/user/update/avatar", [UserController::class, "updateAvatar"]);
-  Route::post("/api/user/update/banner", [UserController::class, "updateBanner"]);
-  Route::get("/api/posts/{id}", function ($id) {
+  Route::post("/cp/user/update/name", [UserController::class, "updateName"]);
+  Route::post("/cp/user/update/avatar", [UserController::class, "updateAvatar"]);
+  Route::post("/cp/user/update/banner", [UserController::class, "updateBanner"]);
+  Route::get("/cp/posts/{id}", function ($id) {
     if ($post = Post::find($id)) {
       return new PostResource($post);
     }
     return abort(404);
   });
-  // Route::get("/api/posts", function () {
+  // Route::get("/cp/posts", function () {
   //   $posts = Post::latest()->paginate(10);
   //   return PostResource::collection($posts);
   // });

@@ -17,7 +17,7 @@
         </span></button>
     </form>
     <h1 class="text-3xl font-semibold mb-4">Buat Postingan</h1>
-    <form action="/api/post/create" method="POST" enctype="multipart/form-data">
+    <form action="/cp/post/create" method="POST" enctype="multipart/form-data">
       @csrf
       <textarea class="outline-none bg-neutral w-full min-h-8"
         placeholder="Apa yang Anda pikirkan, {{ Auth()->user()->name }}?" name="caption"></textarea>

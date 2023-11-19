@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -16,7 +17,7 @@
   <x-navbar />
   <div
     class="bg-neutral shadow-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 sm:w-[32rem] p-8 rounded-2xl flex flex-col gap-4 mt-8 z-20">
-    <form action="/api/user/update/name" method="POST">
+    <form action="/cp/user/update/name" method="POST">
       <label class="flex text-lg font-semibold">Ganti nama</label>
       @csrf
       <div class="join w-full mt-2 mb-8">
@@ -36,7 +37,7 @@
         <img src="{{ auth()->user()->avatar }}" id="avatarPreview"
           class="rounded-full mx-auto h-40 w-auto cursor-pointer" onclick="openBanner()"
           accept=".jpeg, .jpg, .png, .webp, .gif" />
-        <form action="/api/user/update/avatar" method="POST" enctype="multipart/form-data">
+        <form action="/cp/user/update/avatar" method="POST" enctype="multipart/form-data">
           @csrf
           <input type="file" id="avatarInput" class="hidden" name="avatar" onchange="handleAvatarInput()" />
           <button class="btn btn-primary mx-auto normal-case place-self-center grid hidden mt-4"
@@ -59,7 +60,7 @@
               onclick="openBanner()" />
           </div>
         @endif
-        <form action="/api/user/update/banner" method="POST" enctype="multipart/form-data">
+        <form action="/cp/user/update/banner" method="POST" enctype="multipart/form-data">
           @csrf
           <input type="file" id="bannerInput" class="hidden" name="banner" onchange="handleBannerInput()"
             accept=".jpeg, .jpg, .png, .webp, .gif" />
